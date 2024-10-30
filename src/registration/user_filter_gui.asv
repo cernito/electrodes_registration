@@ -1,0 +1,95 @@
+function filtered_scan = user_filter_gui(prealigned_scan, parentTab, ax)    
+    
+    if isempty(filtered_scan)
+        % Initialize as needed or display message
+    else
+        % Keep the existing filtered_scan data
+    end
+    
+    % Check if the filter buttons already exist
+    existingButtons = findall(parentTab, 'Tag', 'FilterComponent');
+    
+    % Toggle visibility based on current state
+    if isempty(existingButtons) || strcmp(existingButtons(1).Visible, 'off')
+        % Create or show filter method buttons
+        filterMethod1Button = uibutton(parentTab, 'Text', 'Filter Below Plane', ...
+            'Position', [550, 300, 120, 30], 'ButtonPushedFcn', @(~,~) selectFilterMethod(1), ...
+            'Tag', 'FilterComponent', 'Visible', 'on');
+        filterMethod2Button = uibutton(parentTab, 'Text', 'Filter Outside Sphere', ...
+            'Position', [550, 260, 120, 30], 'ButtonPushedFcn', @(~,~) selectFilterMethod(2), ...
+            'Tag', 'FilterComponent', 'Visible', 'on');
+    else
+        % Toggle visibility off if already visible
+        set(existingButtons, 'Visible', 'off');
+    end
+
+    % Create input field and label, initially hidden
+    inputLabel = uilabel(parentTab, 'Position', [550, 210, 120, 22], 'Text', '', 'Visible', 'off', 'Tag', 'FilterComponent');
+    inputField = uieditfield(parentTab, 'Position', [550, 180, 120, 22], 'Visible', 'off', 'Tag', 'FilterComponent');
+
+    % Apply filter button, initially hidden
+    applyFilterButton = uibutton(parentTab, 'Text', 'Apply Filter', 'Position', [550, 140, 120, 30], ...
+        'Visible', 'off', 'ButtonPushedFcn', @(~,~) applyFilter(), 'Tag', 'FilterComponent');
+    
+    % Pause function until filtering completes
+    uiwait;
+
+    % Function to select filtering method
+    function selectFilterMethod(method)
+        % Reset visibility
+        inputLabel.Visible = 'on';
+        inputField.Visible = 'on';
+        applyFilterButton.Visible = 'on';
+        
+        if method == 1
+            inputLabel.Text = 'Enter Z-plane value:';
+        else
+            inputLabel.Text = 'Enter Center [x,y,z] and Radius:';
+        end
+        
+        % Store method selection for applyFilter
+        applyFilterButton.UserData = method;
+    end
+    
+    % Function to apply the selected filter
+    function applyFilter()
+        method = applyFilterButton.UserData;
+        input = str2num(inputField.Value); % Convert input to numbers
+    
+        % Apply the chosen filtering method
+        switch method
+            case 1
+                z_plane_value = input;
+                filtered_scan = filterAbovePlane(prealigned_scan, z_plane_value);
+            case 2
+                if numel(input) == 4
+                    center = input(1:3);
+                    radius = input(4);
+                    filtered_scan = filterOutsideSphere(prealigned_scan, center, radius);
+                else
+                    fig = ancestor(parentTab, 'figure'); % Ensure valid figure handle
+                    uialert(fig, 'Please enter [x,y,z] and radius.', 'Input Error');
+                    return;
+                end
+        end
+
+        % Resume execution after filtering
+        uiresume;
+    end
+
+    
+    % ---- Helper functions ----
+    function filtered_scan = filterAbovePlane(ptCloud, z_plane)
+        points = ptCloud.Location;
+        belowPlaneIdx = points(:, 3) >= z_plane;
+        filtered_scan = pointCloud(points(belowPlaneIdx, :));
+    end
+
+    function filtered_scan = filterOutsideSphere(ptCloud, center, radius)
+        points = ptCloud.Location;
+        distances = sqrt(sum((points - center).^2, 2));
+        insideSphereIdx = distances <= radius;
+        filtered_scan = pointCLoud(points(insideSphereIdx, :));
+    end
+
+end
