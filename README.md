@@ -40,11 +40,17 @@ This project provides a MATLAB-based implementation of a pipeline for registerin
  
 2. **Run the Main Script**
 
+   For GUI interface run script
+   ```matlab
+   multi_page_gui
+   ```
+
+   For basic version without a GUI run script 
    ```matlab
    main
    ```
 
-3. **Follow the Pipeline**
+2. **Follow the Pipeline**
 
    Firstly you will be prompted to import a MRI scan.
    The process of creation of the 3D head model takes approximately ___ second.
