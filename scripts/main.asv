@@ -1,0 +1,52 @@
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Load files - mri t1
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+clear; close all; fig = 0;
+disp(''); disp('Loading files...');
+
+load_files
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Create the final 3D model
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+disp(''); disp('Creating the 3D head model from MRI... Please wait');
+
+create_3d_model
+
+disp('Finished creating the final head model.')
+
+% =======================================================================
+% =======================================================================
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Point Cloud Registration - Iterative Closest Point
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Loads MRI model and scan point cloud
+load_model_and_scan
+
+% Does preregistration
+prepare_scan_for_icp
+register_to_sphere
+
+% Makes user prerotate the scan
+ptCloud = alignedToSphere;
+refCloud = pcMri_model;
+user_rotate
+
+% Filters points outside of a sphere around the scan point cloud
+filter_outside_sphere
+
+% Does 
+register_to_mri
+disp('Finished ICP registration.')
+
+plot_aligned
+
+
+
+
+
+
+
+
