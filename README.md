@@ -53,12 +53,15 @@ This project provides a MATLAB-based implementation of a pipeline for registerin
 2. **Follow the Pipeline**
 
    Firstly you will be prompted to import a MRI scan.
-   The process of creation of the 3D head model takes approximately ___ second.
+   The creation of the 3D head model might take a little longer (a minute) to finish.
    After completion user is prompted to save the created file.
    
-   Next you will be guided by the program to import data and interact with the process.
-   You will be prompted to import a 3D head scan. 
+   Next you will be guided by the program to import a 3D head scan and interact with the process.
    User will be prompted to pre-align and filter the obtained 3D scan.
-   
-   After completed alignment user will be prompted to import electrode data.
+
+   After completed pre-alignment user can perform the final alignment of the head scan with the MRI head model.
+   The final aligned head_scan can be saved by the user.
+
+   On the next tab the user will be prompted to import a `.elc` file with the electrode positions.
+   ...
 
