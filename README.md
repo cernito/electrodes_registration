@@ -40,14 +40,9 @@ This project provides a MATLAB-based implementation of a pipeline for registerin
  
 2. **Run the Main Script**
 
-   For GUI interface run script
+   Run GUI interface with script
    ```matlab
-   multi_page_gui
-   ```
-
-   For basic version without a GUI run script 
-   ```matlab
-   main
+   main_gui
    ```
 
 2. **Follow the Pipeline**
