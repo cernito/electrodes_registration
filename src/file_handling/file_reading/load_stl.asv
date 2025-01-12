@@ -1,0 +1,4 @@
+function head_model = load_stl()
+    full_file_path = get_user_file_path('*.stl', 'Select the 3D head model made from MRI');
+    head_model = stlread(full_file_path);
+end
