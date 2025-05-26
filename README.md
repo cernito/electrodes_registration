@@ -52,16 +52,29 @@ This project provides a MATLAB-based implementation of a pipeline for registerin
    The creation of the 3D head model might take a little longer (a minute) to finish.
    After completion user is prompted to save the created file.
 
+   ![Importing the MRI NIfTI into the GUI](images/GUI_tab1.png)
+
    **Page 2**  
    Next you will be guided by the program to import a 3D head scan and interact with the process.
    User will be prompted to pre-align and filter the obtained 3D scan.
+
+   ![Pre-alignment interface for the head scan](images/GUI_tab2.png)
 
    **Page 3**  
    After completed pre-alignment user can perform the final alignment of the head scan with the MRI head model.
    The final aligned head_scan can be saved by the user.
 
+   ![Final alignment step](images/GUI_tab3.png)
+
    **Page 4**  
    On the next tab the user will be prompted to import a `.elc` file with the electrode positions.
-   ...
+   Here the user pre-aligns the electrodes and performs the electrode registration.
+
+   ![Electrode detection step](images/GUI_tab4.png)
+
+   **Page 5**
+   The result of the electrode detection/registration can be viewed in a seperate revision tab.
+
+   ![Electrode revision](images/GUI_tab5.png)
 
 
